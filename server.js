@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
-const db = require("./models/");
+const db = require("./models/index.js");
 
 var corsOptions = {
   origin: false
@@ -11,15 +11,25 @@ var corsOptions = {
 const app = express();
 app.use(cors());
 // parse requests of content-type - application/json
-app.use(express.json());
+app.use(bodyParser.json({ limit: "200mb"}));
 // parse requests of content-type - application/x-www-form-urlencoded
-app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
-db.sequelize.sync();
+//set images as static folder
+app.use('/images',express.static('images'));
+
+db.sequelize.sync(/*{force: true}*/);
 // simple route
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to tpl site." });
 });
+
+require('./routes/anunt.route.js')(app);
+require('./routes/statie.route.js')(app);
+require('./routes/traseu.route.js')(app);
+require('./routes/statie_traseu.route.js')(app);
+require('./routes/imagine.route.js')(app);
+
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

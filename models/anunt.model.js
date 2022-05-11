@@ -1,16 +1,16 @@
 module.exports = (sequelize, Sequelize) => {
-  const Anunt = sequelize.define("anunt", {
-    titlu: {
+  const Anunt = sequelize.define("new", {
+    title: {
       type: Sequelize.STRING
     },
-    descriere: {
+    description: {
       type: Sequelize.STRING
     },
-    data_publicare: {
+    publication_date: {
       type: Sequelize.DATE
     },
-    fotografie: {
-      type: Sequelize.BLOB("long")
+    photo: {
+      type: Sequelize.STRING
     }
   });
   return Anunt;
